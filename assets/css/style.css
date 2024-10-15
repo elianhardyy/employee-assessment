@@ -1,0 +1,26 @@
+.kriteria {
+  display: none;
+}
+.kriteria.active {
+  display: inline;
+}
+.prev {
+  display: none;
+}
+.prev.active {
+  display: none;
+}
+.nsk {
+  display: none;
+}
+.nsk.active {
+  display: block;
+}
+.sub-kriteria-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.coba-coba {
+  color: red;
+}
