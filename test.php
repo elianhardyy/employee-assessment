@@ -90,15 +90,6 @@ label span {
   position: relative;
   top: -12px;
 }
-/* Custom CSS for Toastify to match Bootstrap styling */
-.bootstrap-toast .toastify {
-    border-radius: 0.375rem;  /* Match Bootstrap's border-radius */
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);  /* Light shadow */
-    color: #ffffff;
-    padding: 10px 20px;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-}
-
 </style>
  <div class="row">
     <div class="col-xs-12">
@@ -106,6 +97,8 @@ label span {
             <div class="box-header"></div>
             <div class="box-body">
                 <p>Nama Karyawan : <?= $data['nama'];?></p>
+                <p>Jenis Kelamin : <?= $data['jenis_kelamin'];?></p>
+                <p>Jabatan : <?= $data['jabatan'];?></p>
                 <p>Kriteria : <?= $kar[$namakriteriajenis]?></p>
                 <p>Bagian : <?= $type ?></p>
                 
@@ -119,7 +112,6 @@ label span {
                         <tbody>
                         <?php if($subkrlen == 0): ?>
                             <?php foreach($papo as $key=>$v):?>
-                            <div class="penilaian">
                             <tr>
                                 <td class="nsk active"><?= $v[$namasubkriteriajenis]?></td>
                             </tr>
@@ -168,26 +160,12 @@ label span {
                                     </label>
                                 </td>
                             </tr>
-                            </div>
-                            <input type="hidden" value="<?= $data['id']?>" class="id-karyawan">
-                            <input type="hidden" value="<?= $data['nama']?>" class="nama-karyawan">
+                            <input type="hidden" value="<?= $data['id']?>" class="nama-karyawan">
                             <input type="hidden" value="<?= $data['jabatan']?>" class="jabatan-karyawan">
                             <input type="hidden" value="<?= $data['jenis_kelamin'] ?>" class="jk-karyawan">
                             <?php //endif;?>
+                            <?php ?>
                             <?php endforeach;?>
-                            <?php 
-                            $_SESSION['penilaian'] = [];
-                            
-                            ?>
-                            <!-- Modal Structure -->
-                            <div id="modal" class="modal">
-                            <div class="modal-content">
-                                <span class="close-btn">&times;</span>
-                                <h2>Modal Title</h2>
-                                <p>This is a simple modal example.</p>
-                                <button id="closeModalBtn">Close</button>
-                            </div>
-                            </div>
                             <?php else: ?>
                         
                             
@@ -249,22 +227,20 @@ label span {
                                     </label>
                                 </td>
                             </tr>
-                            <input type="hidden" value="<?= $data['id']?>" class="nama-karyawan">
+                            <input type="hidden" value="<?= $data['id']?>" class="id-karyawan">
+                            <input type="hidden" value="<?= $data['nama']?>" class="nama-karyawan">
                             <input type="hidden" value="<?= $data['jabatan']?>" class="jabatan-karyawan">
+                            <input type="hidden" value="<?= $data['jenis_kelamin'] ?>" class="jk-karyawan">
                             <?php //endif;?>
                             <?php ?>
                             <?php endforeach;?>
                             <?php echo $awal;?>
                             <input type="hidden" id="nilaiSemua" value="<?= $awal ?>">
                             <input type="hidden" id="penilaian-length" name="" value="<?= $subkrlen ?>">
-                            <?php endif ?>
+                            <input type="hidden" id="subkriteria-length" name="" value="<?= $papolen ?>">
+                        <?php endif ?>
                         </tbody>
-                        <input type="hidden" id="subkriteria-length" name="" value="<?php echo $papolen ?>">
                     </table>
-                    <div id="opinion">
-
-                            </div>
-                            <br>
                 </div>
                 <p id="idk" hidden><?php echo $_GET['idk']?></p>
                 <p id="krilen" hidden><?php echo mysqli_num_rows($kriteria);?></p>
@@ -306,9 +282,9 @@ label span {
                     var radio4 = document.querySelectorAll(".rad4");
                     var radio5 = document.querySelectorAll(".rad5");
                     var namkar = document.querySelectorAll(".id-karyawan");
-                    var namakaryawans = document.querySelectorAll(".nama-karyawan");
-                    var jkkaryawan = document.querySelectorAll(".jk-karyawan");
+                    var namakaryawans = document.querySelectorAll(".nama-karyawan"); 
                     var jabkar = document.querySelectorAll(".jabatan-karyawan");
+                    var jkkar = document.querySelectorAll(".jk-karyawan");
 
                     let arr1 = [0];
                     let arr2 = [0];
@@ -319,7 +295,6 @@ label span {
                     const idkrs = [];
                     const karyawan = [];
                     const jabatan = [];
-                    const namakaryawansarr = [];
                     const jk = [];
                     const bagian = [];
                     // jika iki 5 maka checked
@@ -327,10 +302,10 @@ label span {
                     
                     radio1.forEach((v,i)=>{
                             karyawan.push(namkar[i].value);
+                            
                             bagian.push(jabkar[i].value.split(" ")[1].toLowerCase());
-                            jk.push(jkkaryawan[i].value);
-                            jabatan.push(jabkar[i].value);
-                            namakaryawansarr.push(namakaryawans[i].value)
+                        
+                            
                             radio1[i].addEventListener("click",(event)=>{
                                 arr1[i]=event.target.value;
                                 idrs.push(idr1[i].innerHTML)
@@ -339,7 +314,7 @@ label span {
                                 radio3[i].checked = false;
                                 radio4[i].checked = false;
                                 radio5[i].checked = false;
-                                
+                                console.log(arr1);
                             })
                             radio2[i].addEventListener("click",(event)=>{
                                 arr1[i]=event.target.value; 
@@ -378,9 +353,7 @@ label span {
                                 radio4[i].checked = false;
                                 console.log(arr1);
                             })
-                            console.log(arr1);
                         });
-                    
                     var currentActive = document.getElementById("sk").innerHTML;
                     var kriteriaLength = document.getElementById("krilen").innerHTML;
                     var idKaryawan = document.getElementById("idk").innerHTML;
@@ -388,7 +361,7 @@ label span {
                 </script>
                 <?php if($subkrlen == 0):?>
                     <a class="btn btn-primary prev-btn" href="index.php?p=penilaian" id="back-kr">Kembali</a>
-                    <!--<button class="btn btn-primary prev-btn" id="prev-kr">Sebelumnya</button>-->
+                    <button class="btn btn-primary prev-btn" id="prev-kr">Sebelumnya</button>
                     <button type="submit" class="btn btn-primary next-btn" id="next-kr">Selanjutnya</button>
                     <button type="submit" class="btn btn-primary finish-btn" id="finish-kr" >Selesai</button>
                     <script>
@@ -399,48 +372,13 @@ label span {
                         var finish = document.getElementById("finish-kr");
                         var monthSin = document.getElementById("month-single");
                         var yearSin = document.getElementById("year-single");
-                        const penilaians = document.querySelectorAll('.penilaian');
-                        let allFilled = true;
-                        // next.addEventListener("click",()=>{
-                        //     penilaians.forEach((v,i)=>{
-                        //         const radio1 = v.querySelectorAll(`.rad1`);
-                        //         const radio2 = v.querySelectorAll(`.rad2`);
-                        //         const radio3 = v.querySelectorAll(`.rad3`);
-                        //         const radio4 = v.querySelectorAll(`.rad4`);
-                        //         const radio5 = v.querySelectorAll(`.rad5`);
-                        //         const isChecked1 = Array.from(radio1).some(rad1 => rad1.checked);
-                        //         const isChecked2 = Array.from(radio2).some(rad2 => rad2.checked);
-                        //         const isChecked3 = Array.from(radio3).some(rad3 => rad3.checked);
-                        //         const isChecked4 = Array.from(radio4).some(rad4 => rad4.checked);
-                        //         const isChecked5 = Array.from(radio5).some(rad5 => rad5.checked);
-                        //         if(!isChecked1){
-                        //             allFilled =false
-                        //             alert("message radio 1")
-                        //         }
-                        //     })
-                        // })
-                        
-                        if(currentActive != 1) back.style.display = "none";
-                        // ini diubah
-                        //if(currentActive != 1) prev.style.display = "none";
-                        // itu diubah
-                        if(currentActive == kriteriaLength) next.style.display="none";
-                        if(currentActive != kriteriaLength) finish.style.display = "none";
-                        if(currentActive == kriteriaLength) {
-                            var opinion = document.getElementById("opinion");
-                            var newSub = document.createElement("div");
-                            newSub.innerHTML += '<label class="form-label">Komentar</label><textarea class="form-control" name="saran" placeholder="Komentar..." id="komentar"></textarea>'
-                            opinion.appendChild(newSub);
-                        }
-                        var comment = document.getElementById("komentar");
-                        
                         finish.addEventListener("click",(e)=>{
                             e.preventDefault();
-                            if(arr1.length != Number(subKriteriaLen.value)){
-                                alert("masih ada penilaian yang kosong")
-                                return
-                            }else{
-                                swal({
+                            console.log(arr1);
+                            console.log(idrs);
+                            console.log(idkrs);
+                            console.log(karyawan);
+                            swal({
                                 title:"Apakah anda yakin sudah menilai?",
                                 icon:"warning",
                                 buttons:true,
@@ -470,10 +408,9 @@ label span {
                                             kid:idkrs,
                                             kar:karyawan,
                                             bag:bagian,
-                                            jab:jabatan,
-                                            comment:comment.value,
-                                            nama:namakaryawansarr,
-                                            jk:jk,
+                                            jab:jabkar.value,
+                                            nama:namakaryawans.value,
+                                            jk:jkkar.value,
                                             bobot:kriteriabobot.value,
                                             year:yearSin.value,
                                             month:monthSin.value,
@@ -500,70 +437,50 @@ label span {
                                     swal("Gagal diproses")
                                 }
                             })
-                            }
-                            
                         })
-                        //$subkriteriat = mysqli_query($con,"SELECT * FROM penilaian_pemilik JOIN $tb_sub_kriteria ON penilaian_pemilik.id_sub_kriteria_fk = $tb_sub_kriteria.$idsbk WHERE $tb_sub_kriteria.$id_kfk = '$sk'");
+                        
                         next.addEventListener("click",(e)=>{
                             currentActive++;
-                            console.log(arr1.length);
-                            console.log(subKriteriaLen.value)
-                            if(arr1.length != Number(subKriteriaLen.value)){
-                                alert("masih ada penilaian yang kosong")
-                                currentActive -= 1
-                                return
-                            }else{
-                                swal({
-                                    title:"Apakah anda yakin ke penilaian selanjutnya?",
-                                    icon:"warning",
-                                    buttons:true,
-                                    dangerMode:true
-                                }).then((yes)=>{
-                                    if(yes){
-                                        $.ajax({
-                                            type:"POST",
-                                            url:`functions/index.php?r=addAssessment`,
-                                            data:{
-                                                nilai:arr1,
-                                                skid:idrs,
-                                                kid:idkrs,
-                                                kar:karyawan,
-                                                bag:bagian,
-                                                bobot:kriteriabobot.value,
-                                                year:yearSin.value,
-                                                month:monthSin.value,
-                                                status:'proses',
-                                            },
-                                            success:function(res){
-                                                console.log("ini post")
-                                                console.log(res)
-                                            },
-                                            error:function(error){
-                                                console.log("error")
-                                            }
-                                        })
-                                        var typeb = document.getElementById("typeb").value;
-                                        // $.ajax({
-                                        //     type:"GET",
-                                        //     url:`index.php?p=penilaian&act=nilai&sk=${currentActive}&idk=${idKaryawan}&type=${typeb}&year=${yearSin.value}&month=${monthSin.value}`,
-                                        //     success:function(res){
-                                        //         console.log("ini get")
-                                        //         //console.log(res)
-                                        //     }
-                                        // })
-                                        swal("Penilaian diproses",{
-                                            icon:"success"
-                                        }).then((ok)=>{
-                                            window.location.href = `index.php?p=penilaian&act=nilai&sk=${currentActive}&idk=${idKaryawan}&type=${typeb}&year=${yearSin.value}&month=${monthSin.value}`
-                                            //window.location.href = 'index.php?p=penilaian';
-                                        })
-                                    }else{
-                                        swal("Gagal diproses")
-                                    }
-                                })
-                                
-                            }
+                            e.preventDefault();
+                            console.log(arr1);
+                            console.log(idrs);
+                            console.log(idkrs);
+                            console.log(karyawan);
                             //console.log(kriteriabobot.value);
+                            $.ajax({
+                                type:"POST",
+                                url:`functions/index.php?r=addAssessment`,
+                                data:{
+                                    nilai:arr1,
+                                    skid:idrs,
+                                    kid:idkrs,
+                                    kar:karyawan,
+                                    bag:bagian,
+                                    jab:jabatan,
+                                    bobot:kriteriabobot.value,
+                                    year:yearSin.value,
+                                    month:monthSin.value,
+                                    status:'proses',
+                                },
+                                success:function(res){
+                                    console.log("ini post")
+                                    console.log(res)
+                                },
+                                error:function(error){
+                                    console.log("error")
+                                }
+                            })
+                            var typeb = document.getElementById("typeb").value;
+                            $.ajax({
+                                type:"GET",
+                                url:`index.php?p=penilaian&act=nilai&sk=${currentActive}&idk=${idKaryawan}&type=${typeb}&year=${yearSin.value}&month=${monthSin.value}`,
+                                success:function(res){
+                                    console.log("ini get")
+                                    //console.log(res)
+                                    window.location.href = `index.php?p=penilaian&act=nilai&sk=${currentActive}&idk=${idKaryawan}&type=${typeb}&year=${yearSin.value}&month=${monthSin.value}`
+                                }
+                            })
+                            
                             //update();
                         })
                         
@@ -581,7 +498,10 @@ label span {
                             })
                             //update();
                         })
-                        
+                        if(currentActive != 1) back.style.display = "none";
+                        if(currentActive == 1) prev.style.display = "none";
+                        if(currentActive == kriteriaLength) next.style.display="none";
+                        if(currentActive != kriteriaLength) finish.style.display = "none";
                     </script>
                 <?php else: ?>
                     <a class="btn btn-primary prev-btn" href="index.php?p=penilaian" id="back-kr-after">Kembali</a>

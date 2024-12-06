@@ -15,8 +15,32 @@
     $jabatan = $_POST['jabatan'];
     $sql = "INSERT INTO karyawan VALUES (null,'$nama','$jk','$nohp','$jabatan','belum','belum',null,null,null)";
     $query = mysqli_query($con, $sql);
+    $namajson = json_encode($nama);
     if ($query) {
-      echo "<script>alert('Data berhasil ditambahkan!');window.location.href='index.php?p=karyawan'</script>";
+      //echo "<script>alert('Data berhasil ditambahkan!');window.location.href='index.php?p=karyawan'</script>";
+      ?>
+      <input type="hidden" id="namepost" value="<?= $nama ?>">
+      <script>
+        swal({
+          title:"Apakah menambah karyawan",
+          icon:"warning",
+          buttons:true,
+
+        }).then((yes)=>{
+          if(yes){
+            swal("Tambah karyawan sukses",{
+              icon:"success"
+            }).then((ok)=>{
+              window.location.href='index.php?p=karyawan'
+            })
+          }else{
+            swal("Karyawan tidak ditambahkan")
+            $("#nama_karyawan").val($("#namepost").val());
+            //$("#nama_karyawan")
+          }
+        })
+      </script>
+      <?php
     } else {
       echo "Error : " . mysqli_error($con);
     }
@@ -49,7 +73,7 @@
           <div class="box-body">
           <div class="form-group">
               <label for="exampleInputEmail1">Nama Karyawan</label>
-              <input type="text" class="form-control input-lg" id="exampleInputEmail1" placeholder="Masukan Nama Karyawan" name="nama"  required>
+              <input type="text" class="form-control input-lg" id="namakaryawan" placeholder="Masukan Nama Karyawan" name="nama"  required>
             </div>
             <div class="form-group">
               <label for="exampleInputEmail1">Nomor HP</label>
@@ -57,7 +81,7 @@
             </div>
             <div class="form-group">
               <label for="exampleInputEmail1">Jenis Kelamin</label>
-              <select class="form-control custom-select input-lg" name="JK">
+              <select class="form-control custom-select input-lg" name="JK" id="JK">
                 <option disabled selected>-- Pilih Gender --</option>
                 <option value="Laki - laki">Laki - laki</option>
                 <option value="Wanita">Wanita</option>
@@ -65,7 +89,7 @@
             </div>
             <div class="form-group">
               <label for="exampleInputEmail1">Jabatan</label>
-             <select class="form-control input-lg" name="jabatan" required>
+             <select class="form-control input-lg" name="jabatan" id="jabatan" required>
               <?php
               $jabatan = mysqli_query($con,"SELECT * FROM jabatan")
               ?>
@@ -79,6 +103,7 @@
           </div>
           <!-- /.box-body -->
           <div class="box-footer">
+            <a href="index.php?p=karyawan" class="btn btn-primary">Kembali</a>
             <button type="submit" class="btn btn-primary" name="simpan">Simpan</button>
           </div>
         </form>

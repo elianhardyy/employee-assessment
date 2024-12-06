@@ -34,7 +34,7 @@ $idsbk = 'id_sub_kriteria_'.$type.'';
                   }else{
                     $name = "";
                   }
-                  if($row[$bobotjenis] != $bobotkriteria){
+                  if($row[$bobotjenis] != $bobotkriteria || $row[$namakriteriajenis] == $name){
                     $bobotk = $row[$bobotjenis];
                     $bobotkriteria = $bobotk;
                   }else{
@@ -47,7 +47,7 @@ $idsbk = 'id_sub_kriteria_'.$type.'';
                   <td class="sk"><?= $row[$namasubkriteriajenis]?></td>
                   <?php if($name):?>
                   <td>
-                    <a href="index.php?p=criteria&act=edit&id=<?= $row[$idkrit] ?>&type=<?php echo $type?>" class="btn btn-primary"><i class="glyphicon glyphicon-edit"></i></a>
+                    <a href="index.php?p=criteria&act=edit&id=<?= $row[$idkrit] ?>&type=<?php echo $type?>" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Edit"><i class="glyphicon glyphicon-edit"></i></a>
                     <!--<a href="index.php?p=karyawan&delete&id=<?= $row[$idkrit] ?>&type=<?php echo $type?>" class="btn btn-danger" onclick="return confirm('Apakah data akan dihapus?')"><i class="glyphicon glyphicon-trash"></i></a>-->
                   </td>
                   <?php endif;?>

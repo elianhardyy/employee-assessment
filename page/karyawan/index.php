@@ -5,7 +5,7 @@
     $sql = "DELETE from karyawan where id='$id'";
     $query = mysqli_query($con, $sql);
     if ($query) {
-      echo "<script>alert('Data berhasil dihapus!');window.location.href='index.php?p=karyawan'</script>";
+      //echo "<script>alert('Data berhasil dihapus!');window.location.href='index.php?p=karyawan'</script>";
     } else {
       echo mysqli_error($con);
     }
@@ -64,9 +64,8 @@
                 <td><?= $row['no_hp'] ?></td>
                 <td><?= $row['jabatan'] ?></td>
                 <td>
-                  <a href="index.php?p=karyawan&act=detail&sk=1&idk=<?= $row['id']?>&type=produksi" class="btn btn-warning"><i class="glyphicon glyphicon-pencil"></i></a>
-                  <a href="index.php?p=karyawan&act=edit&id=<?= $row['id'] ?>" class="btn btn-primary"><i class="glyphicon glyphicon-edit"></i></a>
-                  <a href="index.php?p=karyawan&delete&id=<?= $row['id'] ?>" class="btn btn-danger" onclick="return confirm('Apakah data akan dihapus?')"><i class="glyphicon glyphicon-trash"></i></a>
+                  <a href="index.php?p=karyawan&act=edit&id=<?= $row['id'] ?>" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Edit"><i class="glyphicon glyphicon-edit"></i></a>
+                  <button value="<?= $row['id']?>" class="btn btn-danger karyawan"><i class="glyphicon glyphicon-trash" data-toggle="tooltip" data-placement="top" title="Hapus"></i></button>
                 </td>
             	 </tr>
             	<?php endwhile; ?>
@@ -85,3 +84,36 @@
     <!-- /.col -->
   </div>
   <!-- /.row -->
+  <script>
+    const idKaryawan = document.querySelectorAll(".karyawan");
+    idKaryawan.forEach((v,i)=>{
+      idKaryawan[i].addEventListener("click",(e)=>{
+        swal({
+          title:"Apakah Anda yakin mengahpus karyawan",
+          text:"Jika menghapus maka karyawan akan hilang",
+          icon:"warning",
+          buttons:true,
+          dangerMode:true
+        }).then((yes)=>{
+          if(yes){
+            swal("Hapus karyawan sukses",{
+              icon:"success"
+            }).then((ok)=>{
+              $.ajax({
+                url:`index.php?p=karyawan&delete&id=${e.target.value}`,
+                method:"GET",
+                success:()=>{
+                  window.location.href='index.php?p=karyawan'
+                },
+                error:()=>{
+                  console.log("error")
+                }
+              })
+            })
+          }else{
+            swal("Hapus karyawan dibatalkan")
+          }
+        })
+      })
+    })
+  </script>

@@ -41,17 +41,17 @@ foreach($skid as $index=>$value){
 
     // $statuarr = $status[$index]; 
     if($_SESSION['logged'] == 1){
-        mysqli_query($con,"INSERT INTO penilaian_pemilik VALUES (null,'$karyawan','$subk','$k','$period','$v1','$bag')");
+        mysqli_query($con,"INSERT INTO penilaian_pemilik VALUES (null,'$karyawan','$subk','$k','$period','$v1','$bag','$monthName','$yearName')");
         
     }
     if($_SESSION['logged'] == 2){
-        mysqli_query($con,"INSERT INTO penilaian_koor_produksi VALUES (null,'$karyawan','$subk','$k','$period','$v1')");
+        mysqli_query($con,"INSERT INTO penilaian_koor_produksi VALUES (null,'$karyawan','$subk','$k','$period','$v1','$monthName','$yearName')");
     }
     if($_SESSION['logged'] == 3){
-        mysqli_query($con,"INSERT INTO penilaian_koor_gudang VALUES (null,'$karyawan','$subk','$k','$period','$v1')");
+        mysqli_query($con,"INSERT INTO penilaian_koor_gudang VALUES (null,'$karyawan','$subk','$k','$period','$v1','$monthName','$yearName')");
     }
     if($_SESSION['logged'] == 4){
-        mysqli_query($con,"INSERT INTO penilaian_koor_penjualan VALUES (null,'$karyawan','$subk','$k','$period','$v1')");
+        mysqli_query($con,"INSERT INTO penilaian_koor_penjualan VALUES (null,'$karyawan','$subk','$k','$period','$v1','$monthName','$yearName')");
     }
     //mysqli_query($con,"INSERT INTO penilaian VALUES (null,'0','$v1','$karyawan','$subk','$kriteria')");
     
@@ -73,16 +73,22 @@ if($_SESSION['logged'] == 1){
 if($_SESSION['logged'] == 2){
     mysqli_query($con,"INSERT INTO penilaian_kriteria_koor_produksi VALUES (null,'$kar[0]','$kid[0]','$kriterianilai','$monthName','$yearName')");
 }
-else{
-    $koo = $fetchkaryawan['penilaian_koordinator'] + $kriterianilai;
-    $koordinatorBobot = $koo; //nilai murni
-    mysqli_query($con,"UPDATE karyawan SET status_penilaian_koordinator = '$status',penilaian_koordinator = '$koordinatorBobot' WHERE id='$kar[0]'");
-    if($fetchkaryawan['nilai_total'] == null){
-        $nilaiTotal =  (number_format($koordinatorBobot,1) * 0.6);
-        mysqli_query($con,"UPDATE karyawan SET nilai_total='$nilaiTotal' WHERE id='$kar[0]'");
-    }
-    $nilaiTotal =  (number_format($koordinatorBobot,1) * 0.6) + $fetchkaryawan['nilai_total'];
-    mysqli_query($con,"UPDATE karyawan SET nilai_total='$nilaiTotal' WHERE id='$kar[0]'");
-} 
+if($_SESSION['logged'] == 3){
+    mysqli_query($con,"INSERT INTO penilaian_kriteria_koor_gudang VALUES (null,'$kar[0]','$kid[0]','$kriterianilai','$monthName','$yearName')");
+}
+if($_SESSION['logged'] == 4){
+    mysqli_query($con,"INSERT INTO penilaian_kriteria_koor_penjualan VALUES (null,'$kar[0]','$kid[0]','$kriterianilai','$monthName','$yearName')");
+}
+// else{
+//     $koo = $fetchkaryawan['penilaian_koordinator'] + $kriterianilai;
+//     $koordinatorBobot = $koo; //nilai murni
+//     mysqli_query($con,"UPDATE karyawan SET status_penilaian_koordinator = '$status',penilaian_koordinator = '$koordinatorBobot' WHERE id='$kar[0]'");
+//     if($fetchkaryawan['nilai_total'] == null){
+//         $nilaiTotal =  (number_format($koordinatorBobot,1) * 0.6);
+//         mysqli_query($con,"UPDATE karyawan SET nilai_total='$nilaiTotal' WHERE id='$kar[0]'");
+//     }
+//     $nilaiTotal =  (number_format($koordinatorBobot,1) * 0.6) + $fetchkaryawan['nilai_total'];
+//     mysqli_query($con,"UPDATE karyawan SET nilai_total='$nilaiTotal' WHERE id='$kar[0]'");
+// } 
 
 ?>

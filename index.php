@@ -3,6 +3,7 @@
 @session_start();
 error_reporting(0);
 include 'config/connection.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
 	// if (@$_SESSION['logged'] == false) {
 	// 	header('Location:login.php');
@@ -27,7 +28,7 @@ if (isset($_GET['logout'])) {
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/x-icon" href="purnama.jpg">
   <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
@@ -41,6 +42,7 @@ if (isset($_GET['logout'])) {
    folder instead of downloading all of them to reduce the load. -->
    <link rel="stylesheet" href="assets/dist/css/skins/_all-skins.min.css">
    <link rel="stylesheet" href="assets/css/style.css">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
    <!--charts js-->
    <script src="https://kit.fontawesome.com/bd20a423ca.js" crossorigin="anonymous"></script>
    <script src="https://www.chartjs.org/dist/2.8.0/Chart.min.js"></script>
@@ -97,7 +99,6 @@ if (isset($_GET['logout'])) {
           <ul class="nav navbar-nav">
 
             <?php if (@$_SESSION['logged'] == 1): ?>
-              <li><a class="dropdown-item" href="?p=karyawan">Data Karyawan</a></li>
               <!-- <li><a class="dropdown-item" href="?p=alternatif">Penilaian karyawan</a></li> -->
          <!--  <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="dropdownMenu">
@@ -123,8 +124,7 @@ if (isset($_GET['logout'])) {
             </a>
           </li>
         <?php endif ?>
-        <?php if (@$_SESSION['logged'] == 2 || @$_SESSION['logged'] == 1): ?>
-          <li><a class="dropdown-item" href="?p=alternatif">Penilaian karyawan</a></li>
+        <?php if (@$_SESSION['logged'] == 2 || @$_SESSION['logged'] == 1 || @$_SESSION['logged'] == 3 || @$_SESSION['logged'] == 4): ?>
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="dropdownMenu">
               <img src="assets/img/user.jpg" class="user-image" alt="User Image">
@@ -159,6 +159,18 @@ if (isset($_GET['logout'])) {
 
           <!-- pemilik -->
           <?php if($_SESSION['logged'] == 1):?>
+            <li class="treeview <?= (@$_GET['p']=='user')?'active':'' ?>">
+            <a href="#">
+              <i class="fa fa-user"></i> <span>User</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+              <!-- <li><a href="?p=user&act=create"><i class="fa fa-circle-o"></i> Buat User </a></li> -->
+              <li><a href="?p=user"><i class="fa fa-circle-o"></i> Data User</a></li>
+            </ul>
+          </li>
           <li class="treeview <?= (@$_GET['p']=='jabatan')?'active':'' ?>">
             <a href="#">
               <i class="fa fa-solid fa-user-nurse"></i> <span>Jabatan</span>
@@ -171,18 +183,7 @@ if (isset($_GET['logout'])) {
               <li><a href="?p=jabatan"><i class="fa fa-circle-o"></i> Data Jabatan</a></li>
             </ul>
           </li> 
-          <li class="treeview <?= (@$_GET['p']=='user')?'active':'' ?>">
-            <a href="#">
-              <i class="fa fa-user"></i> <span>User</span>
-              <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-            </a>
-            <ul class="treeview-menu">
-              <!-- <li><a href="?p=user&act=create"><i class="fa fa-circle-o"></i> Buat User </a></li> -->
-              <li><a href="?p=user"><i class="fa fa-circle-o"></i> Data User</a></li>
-            </ul>
-          </li>
+          
           <li class="treeview <?= (@$_GET['p']=='karyawan')?'active':'' ?>">
             <a href="#">
               <i class="fa fa-user-secret"></i> <span>Karyawan</span>
@@ -209,34 +210,11 @@ if (isset($_GET['logout'])) {
               </span>
             </a>
             <ul class="treeview-menu">
-              <?php if($_SESSION['logged'] == 1) :?>
-                <li><a href="?p=penilaian"><i class="fa fa-circle-o"></i> Penilaian Pemilik </a></li>
-              <?php endif; ?>
-              <?php if($_SESSION['logged'] == 3 || $_SESSION['logged'] == 1):?>
-              <li><a href="?p=penilaian&act=gudang"><i class="fa fa-circle-o"></i>Penilaian Koordinator Gudang</a></li>
-              <?php endif;?>
-              <?php if($_SESSION['logged'] == 2 || $_SESSION['logged'] == 1):?>
-                <li><a href="?p=penilaian&act=produksi"><i class="fa fa-circle-o"></i>Penilaian Koordinator Produksi</a></li>
-                <?php endif;?>
-                <?php if($_SESSION['logged'] == 4 || $_SESSION['logged'] == 1):?>
-                  <li><a href="?p=penilaian&act=penjualan"><i class="fa fa-circle-o"></i>Penilaian Koordinator Penjualan</a></li>
-                  <?php endif;?>
+              
             </ul>
           </li> -->
           <?php if($_SESSION['logged'] == 1):?>
-          <!-- <li class="treeview <?= (@$_GET['p']=='laporan')?'active':'' ?>">
-            <a href="#">
-            <i class="fa fa-list"></i> <span>Laporan</span>
-              <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-            </a>
-            <ul class="treeview-menu">
-              <li><a href="?p=laporan&act=terbaik"><i class="fa fa-circle-o"></i> Karyawan Terbaik </a></li>
-              <li><a href="?p=laporan&act=kinerja"><i class="fa fa-circle-o"></i> Kinerja Karyawan</a></li>
-              <!--<li><a href="?p=karyawan&act=presensi"><i class="fa fa-circle-o"></i> Presensi Karyawan</a></li>-->
-            <!--</ul>
-          </li> -->
+         
           <li class="treeview <?= (@$_GET['p']=='criteria')?'active':'' ?>">
             <a href="#">
             <i class="fa fa-list"></i> <span>Kriteria & Sub Kriteria</span>
@@ -251,8 +229,22 @@ if (isset($_GET['logout'])) {
             </ul>
           </li>
           <?php endif;?>
-         
+
           <?php if(@$_SESSION['logged'] == 1):?>
+            <li class="treeview <?= (@$_GET['p']=='periode')?'active':'' ?>">
+            <a href="">
+              <i class="fa fa-clock-o"></i><span>Periode</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+              <li><a href="?p=periode&act=tahun"><i class="fa fa-circle-o"></i> Periode Tahun </a></li>
+            </ul>
+            <ul class="treeview-menu">
+              <li><a href="?p=periode&act=bulan"><i class="fa fa-circle-o"></i> Periode Bulan </a></li>
+            </ul>
+          </li>
           <li class="treeview <?= (@$_GET['p']=='penilaian')?'active':'' ?>">
             <a href="#">
               <i class="fa fa-clock-o"></i> <span>Penilaian</span>
@@ -268,20 +260,6 @@ if (isset($_GET['logout'])) {
               <li><a href="?p=penilaian&act=status-koordinator"><i class="fa fa-circle-o"></i> Cek Status Penilaian Koordinator </a></li>
             </ul>
           </li>
-          <li class="treeview <?= (@$_GET['p']=='periode')?'active':'' ?>">
-            <a href="">
-              <i class="fa fa-clock-o"></i><span>Periode</span>
-              <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-            </a>
-            <ul class="treeview-menu">
-              <li><a href="?p=periode&act=tahun"><i class="fa fa-circle-o"></i> Periode Tahun </a></li>
-            </ul>
-            <ul class="treeview-menu">
-              <li><a href="?p=periode&act=bulan"><i class="fa fa-circle-o"></i> Periode Bulan </a></li>
-            </ul>
-          </li>
           <?php endif; ?>
           <?php if(@$_SESSION['logged'] != 1):?>
           <li class="<?= (@$_GET['p'] == 'penilaian')?>">
@@ -291,14 +269,14 @@ if (isset($_GET['logout'])) {
           <?php if($_SESSION['logged'] == 1):?>
             <li class="treeview <?= (@$_GET['p']=='laporan')?'active':'' ?>">
             <a href="#">
-            <i class="fa fa-list"></i> <span>Laporan</span>
+            <i class="fa fa-list"></i> <span>Hasil & Laporan</span>
               <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>
             </a>
             <ul class="treeview-menu">
-              <li><a href="?p=laporan&act=penilaian"><i class="fa fa-circle-o"></i> Laporan Penilaian </a></li>
-              <li><a href="?p=laporan&act=terbaik"><i class="fa fa-circle-o"></i> Laporan Karyawan Terbaik </a></li>
+              <li><a href="?p=laporan&act=penilaian"><i class="fa fa-circle-o"></i> Hasil & Laporan Per Karyawan </a></li>
+              <li><a href="?p=laporan&act=terbaik"><i class="fa fa-circle-o"></i> Ranking Karyawan </a></li>
               <!-- <li><a href="?p=subkriteria&act=create"><i class="fa fa-circle-o"></i> Tambah Sub Kriteria</a></li> -->
               <!--<li><a href="?p=karyawan&act=presensi"><i class="fa fa-circle-o"></i> Presensi Karyawan</a></li>-->
             </ul>
@@ -462,6 +440,8 @@ if (isset($_GET['logout'])) {
             include 'page/laporan/penilaian.php';
           }else if($action == "terbaik"){
             include 'page/laporan/terbaik.php';
+          }else if($action == "rankprint"){
+            include 'page/cetak/terbaik.php';
           }else{
               include 'page/laporan/index.php';
           }
@@ -494,9 +474,11 @@ if (isset($_GET['logout'])) {
           include 'page/periode/editKriteria.php';
         }else if($action == "tahun"){
           include 'page/periode/tahun/index.php';
-          if($method == "u"){
-            include 'page/periode/tahun/edit.php';
-          }
+          // if($method == "u"){
+          //   include 'page/periode/tahun/edit.php';
+          // }
+        }else if($action == "etahun"){
+          include 'page/periode/tahun/edit.php';
         }else if($method == "ctahun"){
           include 'page/periode/tahun/create.php';
         }else if($action == "bulan"){
@@ -529,6 +511,9 @@ if (isset($_GET['logout'])) {
         }
         break;
 
+        case 'print':
+          include 'page/cetak/testprint.php';
+        break;
         
         case 'TRUNCATE':
         include 'page/pus/del.php';

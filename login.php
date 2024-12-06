@@ -77,7 +77,7 @@ if (isset($_POST['sigin'])) {
     <div class="login-box-body">
       <div class="login-logo">
         <!-- <a href="../../index2.html"><b>Fuzzy</b>AHP</a> -->
-        <img src="assets/img/house.png" width="100px">
+        <img src="purnama.jpg" width="100px">
       </div>
       <p class="login-box-msg">Sign in to start your session</p>
 
@@ -94,9 +94,7 @@ if (isset($_POST['sigin'])) {
 
           <div class="col-xs-12">
             <button type="submit" class="btn btn-primary btn-block btn-flat" name="sigin">Sign In</button> <!-- variable $_POST[""]-->
-            <div class="" style="margin-top: 10px;">
-              <a href="index.php">Kembali ke Halaman utama?</a>
-            </div>
+            
           </div>
           <!-- /.col -->
         </div>

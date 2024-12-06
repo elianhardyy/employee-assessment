@@ -58,7 +58,7 @@
             $getjabatan = mysqli_query($con,"SELECT * FROM jabatan WHERE nama_jabatan LIKE '%staf%'");
             ?>
             <select name="" id="bagian" class="form-control">
-              <option value="">- Pilih -</option>
+              <option value="">- Pilih Bagian -</option>
               <?php foreach($getjabatan as $jab):?>
                 <?php
                   $explodejabatan = explode(" ",$jab['nama_jabatan']);
@@ -139,6 +139,8 @@ if($_SESSION['logged'] == 4){
     </div>
     <!-- /.col -->
   </div>
+  <input type="hidden" name="" id="year-id" value="<?php echo date("Y"); ?>">
+    <input type="hidden" name="" id="month-id" value="<?php echo date("m"); ?>">
   <!-- /.row -->
   <script src="../../../assets/plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
@@ -201,8 +203,10 @@ if($_SESSION['logged'] == 4){
   // })
   $("#bagian").change(function(){
     var bagian = $("#bagian").val();
+    var year = $("#year-id").val();
+    var month = $("#month-id").val();
     $("#bagian").val(bagian)
-    $("#tampilin").load(`page/penilaian/status/ajax/bagian.php?type=${bagian}`)
+    $("#tampilin").load(`page/penilaian/status/ajax/bagian.php?type=${bagian}&year=${year}&month=${month}`)
   })
 
   

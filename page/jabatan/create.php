@@ -42,6 +42,7 @@
           </div>
           <!-- /.box-body -->
           <div class="box-footer">
+            <a href="index.php?p=jabatan" class="btn btn-primary">Kembali</a>
             <button type="submit" class="btn btn-primary" name="simpan">Simpan</button>
           </div>
         </form>

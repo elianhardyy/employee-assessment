@@ -47,8 +47,8 @@
                 <!-- <td><?= $row['password'] ?></td> -->
                 <!-- <td><?= $row['peran'] ?></td> -->
                 <td>
-                  <a href="index.php?p=user&act=edit&id=<?= $row['id_user'] ?>" class="btn btn-primary"><i class="glyphicon glyphicon-edit"></i></a>
-                  <a href="index.php?p=user&delete&id=<?= $row['id_user'] ?>" class="btn btn-danger" onclick="return confirm('Apakah data akan dihapus?')"><i class="glyphicon glyphicon-trash"></i></a>
+                  <a href="index.php?p=user&act=edit&id=<?= $row['id_user'] ?>" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Edit"><i class="glyphicon glyphicon-edit"></i></a>
+                  <a href="index.php?p=user&delete&id=<?= $row['id_user'] ?>" class="btn btn-danger" onclick="return confirm('Apakah data akan dihapus?')" data-toggle="tooltip" data-placement="top" title="Hapus"><i class="glyphicon glyphicon-trash"></i></a>
                 </td>
             	 </tr>
             	<?php endwhile; ?>
