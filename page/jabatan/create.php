@@ -9,6 +9,7 @@
         $input=mysqli_query($con,"INSERT INTO jabatan values (null, '$nama','$JD')");
         if ($input == TRUE) {
           echo "<script>alert('Data ".$nama." Berhasil Ditambahkan!');window.location.href='index.php?p=jabatan'</script>";
+          $_SESSION['status'] = 'create';
         }else{
           echo "<script>alert('Data ".$nama." Gagal dieksekusi!');window.location.href='index.php?p=jabatan&act=create'</script>";
         }
@@ -42,6 +43,7 @@
           </div>
           <!-- /.box-body -->
           <div class="box-footer">
+            <a href="index.php?p=jabatan" class="btn btn-primary">Kembali</a>
             <button type="submit" class="btn btn-primary" name="simpan">Simpan</button>
           </div>
         </form>

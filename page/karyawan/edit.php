@@ -11,7 +11,32 @@
 		$query = mysqli_query($con, $sql);
   
 		if ($query) {
-			echo "<script>alert('Data berhasil diubah!');window.location.href='index.php?p=karyawan&ta=$ta'</script>";
+			?>
+      <input type="hidden" id="nameedit" value="<?= $_POST['nama']?>">
+      <script>
+        swal({
+          title:"Apakah mengubah karyawan",
+          icon:"warning",
+          buttons:true,
+
+        }).then((yes)=>{
+          if(yes){
+            var name = $("#nameedit").val()
+            swal(`Mengubah karyawan sukses`,{
+              icon:"success"
+            }).then((ok)=>{
+              window.location.href='index.php?p=karyawan'
+            })
+          }else{
+            swal("Karyawan tidak ditambahkan")
+            //$("#nama_karyawan")
+          }
+        })
+      </script>
+
+      <?php 
+      $_SESSION['nameedit'] = $_POST['nama'];
+      $_SESSION['status'] = 'edit';
 		} else {
 			echo "Error : " . mysqli_error($con);
 		}
@@ -69,6 +94,7 @@
           </div>
           <!-- /.box-body -->
           <div class="box-footer">
+            <a href="index.php?p=karyawan" class="btn btn-primary">Kembali</a>
             <button type="submit" class="btn btn-primary" name="simpan">Simpan</button>
           </div>
         </form>

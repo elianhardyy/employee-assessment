@@ -23,6 +23,23 @@
         </div>
         <!-- /.box-header -->
         <div class="box-body">
+        <?php if(isset($_SESSION['status'])) {
+            if($_SESSION['status'] == 'create'){
+          ?>
+            <div class="alert alert-success" role="alert">
+              <p>Sukses menambah karyawan</p>
+            </div>
+        <?php 
+            }if($_SESSION['status'] == 'edit'){ ?>
+            <div class="alert alert-success" role="alert">
+              <p>Sukses mengubah karyawan</p>
+            </div>
+       <?php
+          }
+          
+        }
+        unset($_SESSION['status']);
+        ?>
           <table id="example1" class="table table-bordered table-striped">
             <thead>
             <tr>
@@ -49,8 +66,8 @@
             	 	<td width="40%"><?= $row['nama_jabatan'] ?></td>
                 <td><?= $str ?></td>
                 <td>
-                  <a href="index.php?p=jabatan&act=edit&id=<?= $row['id'] ?>" class="btn btn-primary"><i class="glyphicon glyphicon-edit"></i></a>
-                  <a href="index.php?p=jabatan&delete&id=<?= $row['id'] ?>" class="btn btn-danger" onclick="return confirm('Apakah data akan dihapus?')"><i class="glyphicon glyphicon-trash"></i></a>
+                  <a href="index.php?p=jabatan&act=edit&id=<?= $row['id'] ?>" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Edit"><i class="glyphicon glyphicon-edit"></i></a>
+                  <a href="index.php?p=jabatan&delete&id=<?= $row['id'] ?>" class="btn btn-danger" onclick="return confirm('Apakah data akan dihapus?')" data-toggle="tooltip" data-placement="top" title="Hapus"><i class="glyphicon glyphicon-trash"></i></a>
                 </td>
             	 </tr>
             	<?php endwhile; ?>

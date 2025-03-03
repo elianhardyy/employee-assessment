@@ -58,7 +58,7 @@
             $getjabatan = mysqli_query($con,"SELECT * FROM jabatan WHERE nama_jabatan LIKE '%staf%'");
             ?>
             <select name="" id="bagian" class="form-control">
-              <option value="">- Pilih -</option>
+              <option value="">- Pilih Bagian -</option>
               <?php foreach($getjabatan as $jab):?>
                 <?php
                   $explodejabatan = explode(" ",$jab['nama_jabatan']);
@@ -139,6 +139,8 @@ if($_SESSION['logged'] == 4){
     </div>
     <!-- /.col -->
   </div>
+  <input type="hidden" name="" id="year-id" value="<?php echo date("Y"); ?>">
+    <input type="hidden" name="" id="month-id" value="<?php echo date("n"); ?>">
   <!-- /.row -->
   <script src="../../../assets/plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
@@ -152,69 +154,15 @@ if($_SESSION['logged'] == 4){
 <script src="../../../assets/dist/js/demo.js"></script>
 <!-- page script -->
 <script>
-  $(function () {
-    // $("#example1").DataTable();
-    // $('#example2').DataTable({
-    //   "paging": true,
-    //   "lengthChange": true, //false
-    //   "searching": true,//false
-    //   "ordering": true,
-    //   "info": true,
-    //   "autoWidth": true//false
-    // });
-    $('.table-jq').DataTable({
-      "paging": true,
-      "lengthChange": true, //false
-      "searching": true,//false
-      "ordering": true,
-      "info": true,
-      "autoWidth": true
-    })
-  });
-</script>
-<script>
-  // $(function () {
-  //   // $("#example1").DataTable();
-  //   // $('#example2').DataTable({
-  //   //   "paging": true,
-  //   //   "lengthChange": true, //false
-  //   //   "searching": true,//false
-  //   //   "ordering": true,
-  //   //   "info": true,
-  //   //   "autoWidth": true//false
-  //   // });
-  //   $('.table-jq').DataTable({
-  //     "paging": true,
-  //     "lengthChange": true, //false
-  //     "searching": true,//false
-  //     "ordering": true,
-  //     "info": true,
-  //     "autoWidth": true
-  //   })
-  // });
-  // var bagian = document.getElementById("bagian");
-  // bagian.addEventListener("change",function () { 
-  //   var bagian2 = document.getElementById("bagian")
-  //   document.getElementById("bagian").value = bagian2.value
-  //   var tampil = document.getElementById("tampil")
-  //   tampil.onload = `page/penilaian/ajax/bagian.php?type=${bagian2.value}`;
-  // })
+   $(function () {
+    $("#example1").DataTable();
+
+  })
   $("#bagian").change(function(){
     var bagian = $("#bagian").val();
+    var year = $("#year-id").val();
+    var month = $("#month-id").val();
     $("#bagian").val(bagian)
-    $("#tampilin").load(`page/penilaian/status/ajax/bagian.php?type=${bagian}`)
+    $("#tampilin").load(`page/penilaian/status/ajax/bagian.php?type=${bagian}&year=${year}&month=${month}`)
   })
-
-  
-  // $(function () {
-  //   $("#example1").DataTable();
-  //   $('#example2').DataTable({
-  //     "paging": true,
-  //     "lengthChange": true, //false
-  //     "searching": true,//false
-  //     "ordering": true,
-  //     "info": true,
-  //     "autoWidth": true//false
-  //   });
-  //});
 </script>
