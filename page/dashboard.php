@@ -177,7 +177,6 @@
 	}
 	$dataProduksijson = json_encode($dataarrprod);
 
-
 	$dataGudang = mysqli_query($con, "SELECT * FROM penilaian_akhir_koor_gudang WHERE id_periode_tahun_fk = '$yearnowbagian'");
 	$dataarrgud = [];
 	foreach ($dataGudang as $dg) {

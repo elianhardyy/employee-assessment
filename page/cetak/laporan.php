@@ -24,7 +24,7 @@ $idtahunfkjenis = 'id_tahun_fk_' . $bagian;
 $penilaianakhirjenis = 'penilaian_akhir_koor_' . $bagian;
 $komentarjenis = 'komentar_' . $bagian;
 
-$penilaian = "SELECT * FROM penilaian_akhir_pemilik JOIN karyawan ON penilaian_akhir_pemilik.id_karyawan_fk_pemilik=karyawan.id JOIN $penilaianakhirjenis ON penilaian_akhir_pemilik.id_karyawan_fk_pemilik = $penilaianakhirjenis.$idkaryawanfkpenilaian WHERE penilaian_akhir_pemilik.id_karyawan_fk_pemilik='$idkaryawan' AND penilaian_akhir_pemilik.id_periode_bulan_fk='$month' AND penilaian_akhir_pemilik.nama_periode_tahun_fk='$year' LIMIT 1";
+$penilaian = "SELECT * FROM penilaian_akhir_pemilik JOIN karyawan ON penilaian_akhir_pemilik.id_karyawan_fk_pemilik=karyawan.id JOIN $penilaianakhirjenis ON penilaian_akhir_pemilik.id_karyawan_fk_pemilik = $penilaianakhirjenis.$idkaryawanfkpenilaian WHERE penilaian_akhir_pemilik.id_karyawan_fk_pemilik='$idkaryawan' AND penilaian_akhir_pemilik.id_periode_bulan_fk='$month' AND penilaian_akhir_pemilik.nama_periode_tahun_fk='$year' AND $penilaianakhirjenis.$idkaryawanfkpenilaian='$idkaryawan' AND $penilaianakhirjenis.id_periode_bulan_fk='$month' AND $penilaianakhirjenis.id_periode_tahun_fk='$year' LIMIT 1";
 $kar = mysqli_query($con, $penilaian);
 $karyawan = mysqli_fetch_assoc($kar);
 echo $bagian;
